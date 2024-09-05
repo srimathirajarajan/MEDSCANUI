@@ -1303,7 +1303,7 @@ def display_admin_login():
 
     # Load images
     bg_image_path = "images/background_log.jpg"
-    icon_image_path = "nurse.png"
+    icon_image_path = "images/office assistant.png"
     
     bg_image = Image.open(bg_image_path)
     icon_image = Image.open(icon_image_path)
