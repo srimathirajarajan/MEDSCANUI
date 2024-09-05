@@ -185,7 +185,7 @@ def home_section():
 
     st.markdown("""
         <div class="navbar">
-            <div class="logo">MEDSCAN</div>
+            <div class="logo">MedScan</div>
             <div class="nav-links">
                 <a href="#home">Home</a>
                 <a href="#about">About Us</a>
