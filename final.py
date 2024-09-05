@@ -953,9 +953,7 @@ def display_nurse_login():
         if result is True:
             st.session_state.current_page = "home"  # Navigate to home
              # Redirect to the link after successful login
-            st.markdown("""
-                <a href="https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/" target="_blank">
-                """, unsafe_allow_html=True)
+            
         else:
             message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
             
@@ -978,7 +976,9 @@ def display_nurse_login():
             result = check_user_credentials(username_input, password_input)
             if result is True:
                 st.session_state.current_page = "home"  # Navigate to home
-                message = "<div class='message success'>Welcome back!</div>"
+               st.markdown("""
+                <a href="https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/" target="_blank">
+                """, unsafe_allow_html=True)
             else:
                 message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
 
