@@ -173,19 +173,6 @@ def home_section():
         </section>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-        <div class="navbar">
-            <div class="logo">MEDSCAN</div>
-            <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#about">About Us</a>
-                <a href="#services">Services</a>
-                <a href="#contact">Contact</a>
-                <a href="?page=signin">Sign In</a>
-                <a href="?page=signup">Sign Up</a>
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
 
         # Convert the image to Base64
     # Navbar with links to scrollable sections and separate pages
