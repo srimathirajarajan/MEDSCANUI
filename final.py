@@ -4,17 +4,27 @@ import snowflake.connector
 from PIL import Image
 import base64
 from io import BytesIO
-import io
 
 # Function to handle page navigation
 def navigate_to(page):
     st.session_state.current_page = page
+    
+def st_image_to_base64(image):
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    return base64.b64encode(buffered.getvalue()).decode()
 
 def st_image_to_base64(img):
         buffered = BytesIO()
         img.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode()
         return img_str
+    
+# Convert PIL image to base64
+def st_image_to_base64(image):
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    return base64.b64encode(buffered.getvalue()).decode()
     
 # Function to convert image to base64
 def image_to_base64(image_path):
@@ -60,16 +70,22 @@ def home_section():
         z-index: 100;  /* Ensures the navbar is above the hero section */
         color: white;
         padding: 8px 0;
-        text-align: right;
+        display: flex;
+        justify-content: space-between;  /* Space between the logo and the links */
+        align-items: center;
         max-height: 100vh; /* 100% of the viewport height */
         overflow-y: auto;  /* Enables vertical scrolling */
     }}
-    
-    #homea {{
-            background-color: #027BB0 ;
-            border-color: #060606; 
-            border-radius:20px;
-        }}
+
+    .navbar .logo {{
+        margin-left: 20px;
+        font-size: 24px;
+        font-weight: bold;
+    }}
+
+    .navbar .nav-links {{
+        display: flex;
+    }}
 
     .navbar a {{
         color: white;
@@ -84,54 +100,58 @@ def home_section():
         color: black;
     }}
 
-      .hero-section {{
-        /* Replace with the path to your image */
-       background: url('data:image/png;base64,{bg_image_base64}') top right no-repeat; 
-       height:88vh; 
-       width:210vh; 
-       top:0;
-       background-size: cover; 
-       margin-right: 180px;
-       margin-left:-410px;
-       padding-left:150px;
-       display: flex;   
-       margin-top:-660px;
+    #homea {{
+        background-color: #027BB0 ;
+        border-color: #060606; 
+        border-radius: 20px;
     }}
+
+    .hero-section {{
+        background: url('data:image/png;base64,{bg_image_base64}') top right no-repeat; 
+        height: 88vh; 
+        width: 210vh; 
+        top: 0;
+        background-size: cover; 
+        margin-right: 180px;
+        margin-left: -410px;
+        padding-left: 150px;
+        display: flex;   
+        margin-top: -300px;
+    }}
+
     .hero-content {{
-            margin-top: -50;  /* Reset margin-top to keep the content centered */
-            padding-right: 0; 
-            
+        margin-top: 150px;  /* Reset margin-top to keep the content centered */
+        padding-right: 0; 
     }}
-    .hero-content h3 {{
-            margin: 0;
-    }}
+
     .hero-title {{
-            margin-right: 80px;
-            font-size: 30px;
-            
+        margin-right: 80px;
+        font-size: 30px;
     }}
+
     .hero-subtitle {{
-            font-size: 32px;
-            margin-right: 80px;
-            margin-top: 20px;
+        font-size: 32px;
+        margin-right: 80px;
+        margin-top: 20px;
     }}
 
     .custom-button1 {{
-            font-size: 25px;
-            padding: 5px;
-            margin-right: 180px;
-            background-color: #00AEEF;
-            border: none;
-            border-radius: 30px;
-            color: white;
-            display: inline-flex;
-            align-items: center;
-            overflow: hidden;
-            margin-top: 40px;
-        }}
-        .custom-button1 span {{
-            padding: 10px 30px;
-        }}
+        font-size: 25px;
+        padding: 5px;
+        margin-right: 180px;
+        background-color: #00AEEF;
+        border: none;
+        border-radius: 30px;
+        color: white;
+        display: inline-flex;
+        align-items: center;
+        overflow: hidden;
+        margin-top: 40px;
+    }}
+
+    .custom-button1 span {{
+        padding: 10px 30px;
+    }}
 
     .content {{
         padding-top: 250px; /* Space for the navbar */
@@ -142,42 +162,42 @@ def home_section():
         background-color: rgba(0,0,0,0);
     }}
     
-        </style>
+    </style>
     """, unsafe_allow_html=True)
     
+    st.markdown("<div id='home' class='content'>", unsafe_allow_html=True)
 
-
-
-# Load background image
     st.markdown(f"""
-                <section  id="homea">
-        <div class="hero-section">
-            <div class="hero-content"><br><br><br><br><br><br><br>
-                <h3 class="hero-title">WELCOME TO MEDSCAN!</h3>
-                <h3 class="hero-subtitle">Unlocking Smarter Healthcare</h3>
-                <div>
-                    <button class="custom-button1">
-                        <span>Chat Interface</span>
-                    </button>
+        <section id="homea">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h3 class="hero-title">WELCOME TO MEDSCAN!</h3>
+                    <h3 class="hero-subtitle">Unlocking Smarter Healthcare</h3>
+                    <div>
+                        <button class="custom-button1">
+                            <span>Chat Interface</span>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
         </section>
     """, unsafe_allow_html=True)
 
-        # Convert the image to Base64
-    # Navbar with links to scrollable sections and separate pages
     st.markdown("""
-            <div class="navbar">
+        <div class="navbar">
+            <div class="logo">MEDSCAN</div>
+            <div class="nav-links">
                 <a href="#home">Home</a>
-                <a href="#abouta">About Us</a>
+                <a href="#about">About Us</a>
                 <a href="#services">Services</a>
                 <a href="#contact">Contact</a>
                 <a href="?page=signin">Sign In</a>
                 <a href="?page=signup">Sign Up</a>
             </div>
-            """, unsafe_allow_html=True)
-    st.markdown("<div id='home' class='content'>", unsafe_allow_html=True)
+        </div>
+    """, unsafe_allow_html=True)
+
+
 
     
 def about_us_section():
@@ -269,7 +289,6 @@ def about_us_section():
         unsafe_allow_html=True
     )
     
-    
     # HTML content with base64 image
     st.markdown(
         f"""
@@ -325,7 +344,7 @@ def about_us_section():
         """,
         unsafe_allow_html=True
     )
-st.markdown("<div id='about' class='content'>", unsafe_allow_html=True)
+    st.markdown("<div id='about' class='content'>", unsafe_allow_html=True)
 
 def services_section():
     # Services section
@@ -393,11 +412,11 @@ def services_section():
         """,
         unsafe_allow_html=True
     )
+
     # Display services in a grid layout
     st.markdown(
         """
-         <section class="services" id="services">
-        
+        <section id="services">
         <h4 class="custom-border">Our Services</h4>
         <div class="services-container">
             <div class="service-box">
@@ -425,10 +444,10 @@ def services_section():
         """,
         unsafe_allow_html=True
     )
+
     
-   
 def contact_page():
-    image_path = "images/blurimage.png"  # Update this path as needed
+    image_path = "images/contact.jpg"  # Update this path as needed
     bg_image = Image.open(image_path)
     bg_image_base64 = st_image_to_base64(bg_image)  # Convert image to base64
 
@@ -517,7 +536,7 @@ def contact_page():
         unsafe_allow_html=True
     )
       
-
+    
 def signup_page():
     # Path to background image
     bg_image_path = "images/background_signup.jpg"  # Path to your uploaded image
@@ -536,6 +555,12 @@ def signup_page():
             width: 100%;
             height: 100%;
         }}
+        .icon-nurse {{
+        font-size: 24px;
+        color: #007bff;
+        padding-right: 10px;
+        padding-top: 5px;
+       }}
         .signup-container h1 {{
             margin-bottom: 1rem;
             font-size: 2rem;
@@ -674,120 +699,791 @@ def reset_password_page():
 def reset_password(token, new_password):
     # Logic to verify the token and update the password
     pass
-   
-def login_as(username, password):
-    conn_params = {
-        'user': 'dheepika13',
-        'password': 'Dheepika@13',
-        'account': 'sx93925.ap-southeast-1',
-        'warehouse': 'COMPUTE_WH',
-        'database': 'LOGIN',
-        'schema': 'logindetails'
-    }
+
+# Helper function to convert image to base64 (used in the background image)
+def image_to_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+def display_login_as_page():
+    st.title("Select Your Role")
     
-    try:
-        conn = snowflake.connector.connect(**conn_params)
-        cursor = conn.cursor()
-        query = """
-        SELECT * FROM users WHERE username=%s AND password=%s;
-        """
-        cursor.execute(query, (username, password))
-        result = cursor.fetchone()
-        return bool(result)
-    except Exception as e:
-        st.error(f"Error checking credentials: {e}")
-        return False
-    finally:
-        cursor.close()
-        conn.close()
-
-# Function to get the user role from the database
-def get_user_role(username):
-    conn_params = {
-        'user': 'dheepika13',
-        'password': 'Dheepika@13',
-        'account': 'sx93925.ap-southeast-1',
-        'warehouse': 'COMPUTE_WH',
-        'database': 'LOGIN',
-        'schema': 'logindetails'
-    }
+    # Set the background image
+    set_bg_image('images/background_login.jpg')  # Replace with the path to your background image
     
-    try:
-        conn = snowflake.connector.connect(**conn_params)
-        cursor = conn.cursor()
-        query = "SELECT role FROM users WHERE username = %s"
-        cursor.execute(query, (username,))
-        result = cursor.fetchone()
-        return result[0] if result else None
-    except Exception as e:
-        st.error(f"Error fetching user role: {e}")
-        return None
-    finally:
-        cursor.close()
-        conn.close()
+    # Create three columns for aligning buttons
+    col1, col2, col3 = st.columns(3)
 
-# Function to navigate to a specific page
-def navigate_to(page):
-    st.session_state.current_page = page
+    # Buttons for each role
+    with col1:
+        st.image("images/nurse.png", use_column_width=True)
+        if st.button("Sign in as Nurse"):   
+           st.query_params.from_dict({"page": "role_selection", "role": "nurse"})
 
-# Function to handle login
-def login(username, password):
-    if login_as(username, password):
-        user_role = get_user_role(username)
-        
-        if user_role:
-            if user_role == 'Nurse':
-                navigate_to('nurse_login')
-            elif user_role == 'Doctor':
-                navigate_to('doctor_login')
-            elif user_role == 'Admin':
-                navigate_to('admin_login')
-            else:
-                st.error("Role not recognized!")
+    with col2:
+        st.image("images/doctor.png", use_column_width=True)
+        if st.button("Sign in as Doctor"):
+           st.query_params.from_dict({"page": "role_selection", "role": "doctor"})
+
+    with col3:
+        st.image("images/office assistant.png", use_column_width=True)
+        if st.button("Sign in as Admin"):
+           st.query_params.from_dict({"page": "role_selection", "role": "admin"})
+
+    # Display the login form based on the selected role
+    if "page" in st.session_state:
+        if st.session_state.page == "nurse_login":
+            display_nurse_login()
+        elif st.session_state.page == "doctor_login":
+            display_doctor_login()
+        elif st.session_state.page == "admin_login":
+            display_admin_login()
         else:
-            st.error("User not found!")
-    else:
-        st.error("Invalid username or password!")
+            st.write("Please select a role.")
+            
+# Function to set the background image
+def set_bg_image(image_file):
+    with open(image_file, "rb") as img_file:
+        encoded_string = base64.b64encode(img_file.read()).decode()
+        
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url(data:image/jpeg;base64,{encoded_string});
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-# Streamlit interface for the login page
-def login_page():
-    st.title("Login")
-    
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    
-    if st.button("Login"):
-        login(username, password)
 
-# Example login pages for different roles
-def nurse_login_page():
+def check_user_credentials(username, password, role):
+    snowflake_conn_params = {
+        'user': 'dheepika13',
+        'password': 'Dheepika@13',
+        'account': 'sx93925.ap-southeast-1',
+        'warehouse': 'COMPUTE_WH',
+        'database': 'LOGIN',
+        'schema': 'logindetails'
+    }
+    
+    try:
+        conn = snowflake.connector.connect(**snowflake_conn_params)
+        cursor = conn.cursor()
+        
+        # Check role first
+        role_query = """
+        SELECT * FROM users WHERE username=%s AND role=%s;
+        """
+        cursor.execute(role_query, (username, role))
+        role_result = cursor.fetchone()
+        
+        if not role_result:
+            return "Role does not match or user does not exist."
+        
+        # Check credentials if role is valid
+        credentials_query = """
+        SELECT * FROM users WHERE username=%s AND password=%s AND role=%s;
+        """
+        cursor.execute(credentials_query, (username, password, role))
+        credentials_result = cursor.fetchone()
+        
+        if credentials_result:
+            return True
+        else:
+            return "Invalid credentials, please try again."
+    except Exception as e:
+        return f"Error checking credentials: {e}"
+    finally:
+        cursor.close()
+        conn.close()
+
+# Function to convert image to base64
+def image_to_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode("utf-8")
+
+def display_nurse_login():
     st.title("Nurse Login")
+    
+    # Load images
+    bg_image_path = "images/background_log.jpg"
+    icon_image_path = "images/nurse.png"
 
-def doctor_login_page():
+    # Ensure images exist at the provided paths
+    try:
+        bg_image = Image.open(bg_image_path)
+        icon_image = Image.open(icon_image_path)
+    except FileNotFoundError as e:
+        st.error(f"Image file not found: {e}")
+        return
+
+    # Convert images to base64
+    bg_image_base64 = image_to_base64(bg_image_path)
+    nurse_icon_base64 = image_to_base64(icon_image_path)
+
+    # Apply background to the entire page
+    st.markdown(f"""
+        <style>
+        .stApp {{
+            background-image: url('data:image/png;base64,{bg_image_base64}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }}
+        
+        .icon {{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 1rem;
+        }}
+        .signin-container {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9); /* Slightly opaque white background for better readability */
+            border-radius: 10px;
+        }}
+        .signin-container h1 {{
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            text-align: center;
+            font-weight: bold;
+        }}
+        .signin-container input {{
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }}
+        .signin-container select {{
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }}
+        .signin-container button {{
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }}
+        .signin-container button:hover {{
+            background-color: blue;
+        }}
+        .icon {{
+            margin-bottom: 1rem;
+        }}
+        .icon img {{
+            width: 100px; /* Adjust width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }}
+        .message {{
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }}
+        .success {{
+            color: green;
+        }}
+        .error {{
+            color: red;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+
+    # Snowflake connection details
+    snowflake_conn_params = {
+        'user': 'dheepika13',
+        'password': 'Dheepika@13',
+        'account': 'sx93925.ap-southeast-1',
+        'warehouse': 'COMPUTE_WH',
+        'database': 'LOGIN',
+        'schema': 'logindetails'
+    }
+
+    def check_user_credentials(username, password):
+        try:
+            conn = snowflake.connector.connect(**snowflake_conn_params)
+            cursor = conn.cursor()
+            query = """
+            SELECT * FROM users WHERE username=%(username)s AND password=%(password)s ;
+            """
+            cursor.execute(query, {'username': username, 'password': password, })
+            result = cursor.fetchone()
+            return bool(result)
+        except Exception as e:
+            return f"Error checking credentials: {e}"
+        finally:
+            cursor.close()
+            conn.close()
+
+    # Retrieve the username and password from the URL parameters
+    params = st.query_params
+    username = params.get("username", [""])[0]
+    password = params.get("password", [""])[0]
+
+    message = ""
+
+    # Handle sign-in logic if the form is submitted
+    if st.session_state.get("username") and st.session_state.get("password"):
+        username = st.session_state["username"]
+        password = st.session_state["password"]
+        result = check_user_credentials(username, password)
+        if result is True:
+            st.session_state.current_page = "home"  # Navigate to home
+        else:
+            message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
+            
+    # Sign in page layout
+    with st.form(key='signin_form'):
+        st.markdown("<div class='signin-container'>", unsafe_allow_html=True)
+        st.markdown(f"<div class='icon'><img src='data:image/png;base64,{nurse_icon_base64}' alt='Doctor Icon'/></div>", unsafe_allow_html=True)
+        username_input = st.text_input("Username", value=username)
+        password_input = st.text_input("Password", type='password', value=password)
+        
+        # Add the "Forgot Password" link
+        st.markdown("""
+        <div class="forgot-password">
+            <a href="?page=forgot_password">Forgot Password?</a>
+        </div>
+        """, unsafe_allow_html=True)
+        submit_button = st.form_submit_button(label='Sign In')
+
+        if submit_button:
+            result = check_user_credentials(username_input, password_input)
+            if result is True:
+                st.session_state.current_page = "home"  # Navigate to home
+                message = "<div class='message success'>Welcome back!</div>"
+            else:
+                message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    if message:
+        st.markdown(message, unsafe_allow_html=True)
+
+
+def display_doctor_login():
     st.title("Doctor Login")
+    
+    # Load images
+    bg_image_path = "images/background_log.jpg"
+    icon_image_path = "images/doctor.png"
 
-def admin_login_page():
+    # Ensure images exist at the provided paths
+    try:
+        bg_image = Image.open(bg_image_path)
+        icon_image = Image.open(icon_image_path)
+    except FileNotFoundError as e:
+        st.error(f"Image file not found: {e}")
+        return
+
+    # Convert images to base64
+    bg_image_base64 = image_to_base64(bg_image_path)
+    doctor_icon_base64 = image_to_base64(icon_image_path)
+
+    # Apply background to the entire page
+    st.markdown(f"""
+        <style>
+        .stApp {{
+            background-image: url('data:image/png;base64,{bg_image_base64}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: top right;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }}
+        .icon {{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 1rem;
+        }}
+        .icon img {{
+            width: 120px; /* Adjust width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }}
+        .signin-container {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9); /* Slightly opaque white background for better readability */
+            border-radius: 10px;
+        }}
+        .signin-container h1 {{
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            text-align: center;
+            font-weight: bold;
+        }}
+        .signin-container input {{
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }}
+        .signin-container select {{
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }}
+        .signin-container button {{
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }}
+        .signin-container button:hover {{
+            background-color: blue;
+        }}
+        .message {{
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }}
+        .success {{
+            color: green;
+        }}
+        .error {{
+            color: red;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+
+    # Snowflake connection details
+    snowflake_conn_params = {
+        'user': 'dheepika13',
+        'password': 'Dheepika@13',
+        'account': 'sx93925.ap-southeast-1',
+        'warehouse': 'COMPUTE_WH',
+        'database': 'LOGIN',
+        'schema': 'logindetails'
+    }
+
+    def check_user_credentials(username, password):
+        try:
+            conn = snowflake.connector.connect(**snowflake_conn_params)
+            cursor = conn.cursor()
+            query = """
+            SELECT * FROM users WHERE username=%(username)s AND password=%(password)s ;
+            """
+            cursor.execute(query, {'username': username, 'password': password, })
+            result = cursor.fetchone()
+            return bool(result)
+        except Exception as e:
+            return f"Error checking credentials: {e}"
+        finally:
+            cursor.close()
+            conn.close()
+
+    # Retrieve the username and password from the URL parameters
+    params = st.query_params
+    username = params.get("username", [""])[0]
+    password = params.get("password", [""])[0]
+
+    message = ""
+
+    # Handle sign-in logic if the form is submitted
+    if st.session_state.get("username") and st.session_state.get("password"):
+        username = st.session_state["username"]
+        password = st.session_state["password"]
+        result = check_user_credentials(username, password)
+        if result is True:
+            st.session_state.current_page = "home"  # Navigate to home
+            st.experimental_rerun()  # Refresh the page to navigate
+        else:
+            message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
+            
+    # Sign in page layout
+    with st.form(key='signin_form'):
+        st.markdown("<div class='signin-container'>", unsafe_allow_html=True)
+        st.markdown(f"<div class='icon'><img src='data:image/png;base64,{doctor_icon_base64}' alt='Doctor Icon'/></div>", unsafe_allow_html=True)
+        username_input = st.text_input("Username", value=username)
+        password_input = st.text_input("Password", type='password', value=password)
+        
+        # Add the "Forgot Password" link
+        st.markdown("""
+        <div class="forgot-password">
+            <a href="?page=forgot_password">Forgot Password?</a>
+        </div>
+        """, unsafe_allow_html=True)
+        submit_button = st.form_submit_button(label='Sign In')
+
+        if submit_button:
+            result = check_user_credentials(username_input, password_input)
+            if result is True:
+                st.session_state.current_page = "home"  # Navigate to home
+                message = "<div class='message success'>Welcome back!</div>"
+                
+            else:
+                message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    if message:
+        st.markdown(message, unsafe_allow_html=True)
+        
+def admin_choice():
+    # Function to convert image to base64
+    def image_to_base64(image_path):
+        with open(image_path, "rb") as img_file:
+            return base64.b64encode(img_file.read()).decode()
+
+    # Function to set background image
+    def set_bg_image(image_file):
+        encoded_string = image_to_base64(image_file)
+        st.markdown(
+            f"""
+            <style>
+            .stApp {{
+                background-image: url(data:image/png;base64,{encoded_string});
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-position: center;
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+
+    # Set the background image
+    set_bg_image("images/new_pic.jpg")
+
+    # Main function for the app
+    st.title("Dashboard and Chat Interface")
+
+    # CSS for hover effect, text boxes, and buttons
+    st.markdown(
+        """
+        <style>
+        .hover-container {
+            text-align: center;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            min-height: 300px; /* Ensure both containers have the same minimum height */
+        }
+        .hover-container:hover {
+            opacity: 0.7;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .hover-container img {
+            width: 100%;
+            border-radius: 5px;
+        }
+        .hover-container p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px;
+        }
+        .stButton>button {
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Add transition for hover effect */
+        }
+        .stButton>button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05); /* Slightly enlarge the button on hover */
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Create two columns for the dashboard and chat interface
+    col1, col2 = st.columns(2)
+
+    # Use a container to group the images and their descriptions
+    with st.container():
+        # Dashboard column
+        with col1:
+            st.header("Dashboard")
+
+            # Add dashboard image and text box with hover effect
+            st.markdown(
+                f"""
+                <div class="hover-container">
+                    <img src="data:image/png;base64,{image_to_base64("D:/CTS/dashboard.jpg")}" alt="Dashboard Image">
+                    <p>Dashboard</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+            # Add content below the box
+            st.markdown(
+                """
+                <div>
+                    <p>The Dashboard provides an overview of data visualizations.
+                    It helps users monitor performance, track trends, and make informed decisions.</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+            # "More" button for the dashboard
+            if st.button("Real-Time Insights ➜", key="dashboard"):
+                st.write("More information about the Dashboard...")
+
+        # Chat interface column
+        with col2:
+            st.header("Chat Interface")
+
+            # Add chat image and text box with hover effect
+            st.markdown(
+                f"""
+                <div class="hover-container">
+                    <img src="data:image/png;base64,{image_to_base64("D:/CTS/chat.jpg")}" alt="Chat Interface Image">
+                    <p>Chat Interface</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+            # Add content below the box
+            st.markdown(
+                """
+                <div>
+                    <p>The Chat Interface enables real-time communication between users and the system.
+                    It facilitates quick responses.</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+            # "More" button for the chat interface
+            if st.button("Chat Interface ➜", key="chat"):
+                st.write("More information about the Chat Interface...")
+
+
+def display_admin_login():
     st.title("Admin Login")
 
-# Page navigation based on session state
-if 'current_page' not in st.session_state:
-    st.session_state.current_page = 'login'
-
-if st.session_state.current_page == 'login':
-    login_page()
-elif st.session_state.current_page == 'nurse_login':
-    nurse_login_page()
-elif st.session_state.current_page == 'doctor_login':
-    doctor_login_page()
-elif st.session_state.current_page == 'admin_login':
-    admin_login_page()
+    # Load images
+    bg_image_path = "images/background_log.jpg"
+    icon_image_path = "nurse.png"
     
-        
+    bg_image = Image.open(bg_image_path)
+    icon_image = Image.open(icon_image_path)
+
+    # Convert images to base64
+    bg_image_base64 = st_image_to_base64(bg_image)
+    admin_icon_base64 = st_image_to_base64(icon_image)
+
+    # Apply background to the entire page
+    st.markdown(f"""
+        <style>
+        .stApp {{
+            background-image: url('data:image/png;base64,{bg_image_base64}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: top right;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }}
+        .icon {{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 1rem;
+        }}
+        .icon img {{
+            width: 150px;  /* Set the width of the icon */
+            height: auto;  /* Maintain the aspect ratio */
+        }}
+        .signin-container h1 {{
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            text-align: center;
+            font-weight: bold;
+        }}
+        .signin-container input {{
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }}
+        .signin-container select {{
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }}
+        .signin-container button {{
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }}
+        .signin-container button:hover {{
+            background-color: blue;
+        }}
+        .message {{
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }}
+        .success {{
+            color: green;
+        }}
+        .error {{
+            color: red;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+
+    # Snowflake connection details
+    snowflake_conn_params = {
+        'user': 'dheepika13',
+        'password': 'Dheepika@13',
+        'account': 'sx93925.ap-southeast-1',
+        'warehouse': 'COMPUTE_WH',
+        'database': 'LOGIN',
+        'schema': 'logindetails'
+    }
+
+    def check_user_credentials(username, password):
+        try:
+            conn = snowflake.connector.connect(**snowflake_conn_params)
+            cursor = conn.cursor()
+            query = """
+            SELECT * FROM users WHERE username=%(username)s AND password=%(password)s;
+            """
+            cursor.execute(query, {'username': username, 'password': password})
+            result = cursor.fetchone()
+            return bool(result)
+        except Exception as e:
+            raise Exception(f"Error checking credentials: {e}")
+        finally:
+            cursor.close()
+            conn.close()
+
+    # Retrieve the username and password from the URL parameters
+    params = st.query_params
+    username = params.get("username", [""])[0]
+    password = params.get("password", [""])[0]
+
+    # Initialize message
+    message = ""
+    
+    # Handle sign-in logic if the form is submitted
+    if st.session_state.get("username") and st.session_state.get("password"):
+        username = st.session_state["username"]
+        password = st.session_state["password"]
+        try:
+            result = check_user_credentials(username, password)
+            if result:
+                st.query_params.from_dict({"page": "admin_choice"})
+                st.experimental_rerun()  # Refresh the page to navigate
+                return "Login success"
+            else:
+                message = "<div class='message error'>Invalid credentials, please try again.</div>"
+                return "Login failed"
+        except Exception as e:
+            message = f"<div class='message error'>{e}</div>"
+            return "Login failed"
+            
+    # Sign in page layout
+    # Form for user input
+    with st.form(key='signin_form'):
+        st.markdown("<div class='signin-container'>", unsafe_allow_html=True)
+        st.markdown(f"<div class='icon'><img src='data:image/png;base64,{admin_icon_base64}' alt='Admin Icon'/></div>", unsafe_allow_html=True)
+        username_input = st.text_input("Username", value=username)
+        password_input = st.text_input("Password", type='password', value=password)
+        # Add the "Forgot Password" link
+        st.markdown("""
+        <div class="forgot-password">
+            <a href="?page=forgot_password">Forgot Password?</a>
+        </div>
+        """, unsafe_allow_html=True)
+        submit_button = st.form_submit_button(label='Sign In')
+
+        # Update the message after the form is submitted
+        if submit_button:
+            try:
+                result = check_user_credentials(username_input, password_input)
+                if result:
+                    st.query_params.from_dict({"page": "admin_choice"})
+                    st.experimental_rerun()  # Refresh the page to navigate
+                    message = "<div class='message success'>Welcome back!</div>"
+                    return "Login success"
+                else:
+                    message = "<div class='message error'>Invalid credentials, please try again.</div>"
+                    return "Login failed"
+            except Exception as e:
+                message = f"<div class='message error'>{e}</div>"
+                return "Login failed"
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # Display message if needed
+    if message:
+        st.markdown(message, unsafe_allow_html=True)
+
+    # Return default message if no specific message is set
+    return "No action taken"
+
+if "page" not in st.session_state:
+    st.session_state.page = ""
+
+       
 def footer():   
    # Footer page
    st.markdown("""
-<style>
-.footer {
+    <style>
+    .footer {
     background-color: #027BB0;
     color: white;
     padding: 10px;
@@ -798,142 +1494,156 @@ def footer():
     margin-right:-870px;
     margin-bottom:-200px; 
     margin-top:100px;
-}
-
-.footer-columns {
+    }
+    .footer-columns {
     display: flex;
     justify-content: space-around;
     margin-bottom: 20px;
-}
-
-.footer-column {
+    }
+    .footer-column {
     flex: 1;
     padding: 0 10px;
-}
-
-.footer-column h4 {
+    }
+    .footer-column h4 {
     border-bottom: 2px solid #00A9DF;
     padding-bottom: 10px;
     margin-bottom: 10px;
-}
-
-.footer-column a {
+    }
+    .footer-column a {
     color: white;
     text-decoration: none;
     display: block;
     margin: 5px 0;
-}
-
-.footer-column a:hover {
+    }
+    .footer-column a:hover {
     color: #00A9DF;
-}
-
-.footer-newsletter input[type="email"] {
+    }
+    .footer-newsletter input[type="email"] {
     padding: 8px;
     margin-right: 10px;
     border-radius: 4px;
     border: none;
-}
-
-.footer-newsletter button {
+    }
+    .footer-newsletter button {
     background-color: #00A9DF;
     color: white;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
-}
-
-.footer-newsletter button:hover {
+    }
+    .footer-newsletter button:hover {
     background-color: #007799;
-}
-
-.footer-social-icons {
+    }
+    .footer-social-icons {
     display: flex;
     justify-content: center;
     gap: 10px;  /* Adjust this for spacing between icons */
     margin-top: 10px;
-}
+    }
 
-.footer-social-icons a {
-    color: white;
-    text-decoration: none;
-    font-size: 24px;
-}
+    .footer-social-icons a {
+        color: white;
+        text-decoration: none;
+        font-size: 24px;
+    }
 
-.footer-social-icons a:hover {
-    color: #00A9DF;
-}
+    .footer-social-icons a:hover {
+        color: #00A9DF;
+    }
 
-.footer-bottom {
-    border-top: 1px solid #FFFFFF;
-    padding-top: 10px;
-}
-</style>
-<div class="footer">
-         <div class="footer-columns">
-        <div class="footer-column">
-            <h4>GET IN TOUCH</h4>
-            <p>SRI MANAKULA VINAYAGAR ENGINEERING COLLEGE</p>
-            <p>📍 Madagadipet </p>
-            <p>📧 smvec@ac.in</p>
-            <p>📞 +012 345 67890</p>
-        </div>
-        <div class="footer-column">
-            <h4>QUICK LINKS</h4>
-            <a href="#">Home</a>
-            <a href="#">About Us</a>
-            <a href="#">Our Services</a>
-            <a href="#">Contact Us</a>
-        </div>
-        <div class="footer-column">
-            <h4>POPULAR LINKS</h4>
-            <a href="#">Home</a>
-            <a href="#">About Us</a>
-            <a href="#">Our Services</a>
-            <a href="#">Contact Us</a>
-        </div>
-        <div class="footer-column">
-            <h4>NEWSLETTER</h4>
-            <form class="footer-newsletter">
-                <input type="email" placeholder="Your Email Address"><br>
-                <button type="submit">Sign Up</button>
-            </form>
-            <h4>Follow Us</h4>
-            <div class="footer-social-icons">
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
+    .footer-bottom {
+        border-top: 1px solid #FFFFFF;
+        padding-top: 10px;
+    }
+    </style>
+    <div class="footer">
+            <div class="footer-columns">
+            <div class="footer-column">
+                <h4>GET IN TOUCH</h4>
+                <p>SRI MANAKULA VINAYAGAR ENGINEERING COLLEGE</p>
+                <p>📍 Madagadipet </p>
+                <p>📧 smvec@ac.in</p>
+                <p>📞 +012 345 67890</p>
+            </div>
+            <div class="footer-column">
+                <h4>QUICK LINKS</h4>
+                <a href="#">Home</a>
+                <a href="#">About Us</a>
+                <a href="#">Our Services</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-column">
+                <h4>POPULAR LINKS</h4>
+                <a href="#">Home</a>
+                <a href="#">About Us</a>
+                <a href="#">Our Services</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-column">
+                <h4>NEWSLETTER</h4>
+                <form class="footer-newsletter">
+                    <input type="email" placeholder="Your Email Address"><br>
+                    <button type="submit">Sign Up</button>
+                </form>
+                <h4>Follow Us</h4>
+                <div class="footer-social-icons">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="footer-bottom">
-        <p>© MedScan. All Rights Reserved. Designed by <a href="#" style="color: #00A9DF;">Tech-Titans</a></p>
-    </div>
-    </div>
-    """, unsafe_allow_html=True)  
+        <div class="footer-bottom">
+            <p>© MedScan. All Rights Reserved. Designed by <a href="#" style="color: #00A9DF;">Tech-Titans</a></p>
+        </div>
+        </div>
+        """, unsafe_allow_html=True)  
 
 
-# Get the current page from query parameters using st.query_params
-page = st.query_params.get("page", "home")
+query_params = st.query_params.to_dict()
+page = query_params.get("page", "home")
+role = query_params.get("role", "")
 
-# Routing logic to load the appropriate page
+# Navigation logic based on query parameters
 if page == "home":
     home_section()
     about_us_section()
     services_section()
     contact_page()
     footer()
+
 elif page == "signin":
-    login_as()
-elif page == "signup":
-    signup_page()
-elif page == "forgot_password":
-    forgot_password_page()
-elif page == "reset_password":
-    reset_password_page()
+    display_login_as_page()  # Show login page with role options (e.g., Nurse, Doctor, Admin)
+
+elif page == "role_selection" and role:
+    # Automatically navigate to the corresponding role page
+    if role == "nurse":
+        st.query_params.from_dict({"page": "nurse"})
+        display_nurse_login()
+    elif role == "doctor":
+        st.query_params.from_dict({"page": "doctor"})
+        display_doctor_login()
+    elif role == "admin":
+        st.query_params.from_dict({"page": "admin"})
+        display_admin_login()
+
+# Role-specific pages
+elif page == "nurse":
+    display_nurse_login()
+
+elif page == "doctor":
+    display_doctor_login()
+
+elif page == "admin":
+    display_admin_login()
+
+elif page == "admin_choice":
+    admin_choice()
+
 else:
-    home_section()  # Default to home if no page is specified
+    # Default to home if no page is specified
+    st.query_params.from_dict({"page": "home"})
+    home_section()
     footer()
-    
