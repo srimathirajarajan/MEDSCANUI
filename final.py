@@ -60,16 +60,22 @@ def home_section():
         z-index: 100;  /* Ensures the navbar is above the hero section */
         color: white;
         padding: 8px 0;
-        text-align: right;
+        display: flex;
+        justify-content: space-between;  /* Space between the logo and the links */
+        align-items: center;
         max-height: 100vh; /* 100% of the viewport height */
         overflow-y: auto;  /* Enables vertical scrolling */
     }}
-    
-    #homea {{
-            background-color: #027BB0 ;
-            border-color: #060606; 
-            border-radius:20px;
-        }}
+
+    .navbar .logo {{
+        margin-left: 20px;
+        font-size: 24px;
+        font-weight: bold;
+    }}
+
+    .navbar .nav-links {{
+        display: flex;
+    }}
 
     .navbar a {{
         color: white;
@@ -84,54 +90,58 @@ def home_section():
         color: black;
     }}
 
-      .hero-section {{
-        /* Replace with the path to your image */
-       background: url('data:image/png;base64,{bg_image_base64}') top right no-repeat; 
-       height:88vh; 
-       width:210vh; 
-       top:0;
-       background-size: cover; 
-       margin-right: 180px;
-       margin-left:-410px;
-       padding-left:150px;
-       display: flex;   
-       margin-top:-660px;
+    #homea {{
+        background-color: #027BB0 ;
+        border-color: #060606; 
+        border-radius: 20px;
     }}
+
+    .hero-section {{
+        background: url('data:image/png;base64,{bg_image_base64}') top right no-repeat; 
+        height: 88vh; 
+        width: 210vh; 
+        top: 0;
+        background-size: cover; 
+        margin-right: 180px;
+        margin-left: -410px;
+        padding-left: 150px;
+        display: flex;   
+        margin-top: -300px;
+    }}
+
     .hero-content {{
-            margin-top: -50;  /* Reset margin-top to keep the content centered */
-            padding-right: 0; 
-            
+        margin-top: 150px;  /* Reset margin-top to keep the content centered */
+        padding-right: 0; 
     }}
-    .hero-content h3 {{
-            margin: 0;
-    }}
+
     .hero-title {{
-            margin-right: 80px;
-            font-size: 30px;
-            
+        margin-right: 80px;
+        font-size: 30px;
     }}
+
     .hero-subtitle {{
-            font-size: 32px;
-            margin-right: 80px;
-            margin-top: 20px;
+        font-size: 32px;
+        margin-right: 80px;
+        margin-top: 20px;
     }}
 
     .custom-button1 {{
-            font-size: 25px;
-            padding: 5px;
-            margin-right: 180px;
-            background-color: #00AEEF;
-            border: none;
-            border-radius: 30px;
-            color: white;
-            display: inline-flex;
-            align-items: center;
-            overflow: hidden;
-            margin-top: 40px;
-        }}
-        .custom-button1 span {{
-            padding: 10px 30px;
-        }}
+        font-size: 25px;
+        padding: 5px;
+        margin-right: 180px;
+        background-color: #00AEEF;
+        border: none;
+        border-radius: 30px;
+        color: white;
+        display: inline-flex;
+        align-items: center;
+        overflow: hidden;
+        margin-top: 40px;
+    }}
+
+    .custom-button1 span {{
+        padding: 10px 30px;
+    }}
 
     .content {{
         padding-top: 250px; /* Space for the navbar */
@@ -142,27 +152,39 @@ def home_section():
         background-color: rgba(0,0,0,0);
     }}
     
-        </style>
+    </style>
     """, unsafe_allow_html=True)
     
+    st.markdown("<div id='home' class='content'>", unsafe_allow_html=True)
 
-
-
-# Load background image
     st.markdown(f"""
-                <section  id="homea">
-        <div class="hero-section">
-            <div class="hero-content"><br><br><br><br><br><br><br>
-                <h3 class="hero-title">WELCOME TO MEDSCAN!</h3>
-                <h3 class="hero-subtitle">Unlocking Smarter Healthcare</h3>
-                <div>
-                    <button class="custom-button1">
-                        <span>Chat Interface</span>
-                    </button>
+        <section id="homea">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h3 class="hero-title">WELCOME TO MEDSCAN!</h3>
+                    <h3 class="hero-subtitle">Unlocking Smarter Healthcare</h3>
+                    <div>
+                        <button class="custom-button1">
+                            <span>Chat Interface</span>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
         </section>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+        <div class="navbar">
+            <div class="logo">MEDSCAN</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+                <a href="?page=signin">Sign In</a>
+                <a href="?page=signup">Sign Up</a>
+            </div>
+        </div>
     """, unsafe_allow_html=True)
 
         # Convert the image to Base64
