@@ -1245,7 +1245,7 @@ def admin_choice():
             st.markdown(
                 f"""
                 <div class="hover-container">
-                    <img src="data:image/png;base64,{image_to_base64("D:/CTS/dashboard.jpg")}" alt="Dashboard Image">
+                    <img src="data:image/png;base64,{image_to_base64("images/dashboard.jpg")}" alt="Dashboard Image">
                     <p>Dashboard</p>
                 </div>
                 """,
@@ -1275,7 +1275,7 @@ def admin_choice():
             st.markdown(
                 f"""
                 <div class="hover-container">
-                    <img src="data:image/png;base64,{image_to_base64("D:/CTS/chat.jpg")}" alt="Chat Interface Image">
+                    <img src="data:image/png;base64,{image_to_base64("images/chat.jpg")}" alt="Chat Interface Image">
                     <p>Chat Interface</p>
                 </div>
                 """,
