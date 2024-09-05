@@ -1617,6 +1617,7 @@ if page == "home":
 elif page == "signin":
     display_login_as_page()  # Show login page with role options (e.g., Nurse, Doctor, Admin)
 
+
 elif page == "role_selection" and role:
     # Automatically navigate to the corresponding role page
     if role == "nurse":
@@ -1642,6 +1643,8 @@ elif page == "admin":
 elif page == "admin_choice":
     admin_choice()
 
+elif page=="signup":
+    signup_page()
 else:
     # Default to home if no page is specified
     st.query_params.from_dict({"page": "home"})
