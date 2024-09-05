@@ -41,7 +41,7 @@ def set_bg_image(image_file):
 # Scrollable sections content
 def home_section():
     
-    bg_image_path = "sam.png"  # Update this path as needed
+    bg_image_path = "images/sam.png"  # Update this path as needed
     bg_image = Image.open(bg_image_path)
     bg_image_base64 = st_image_to_base64(bg_image)  # Converts image to base64
     
@@ -203,7 +203,7 @@ def home_section():
 
     
 def about_us_section():
-    image_path = "left.jpg"
+    image_path = "images/left.jpg"
     uploaded_image = Image.open(image_path)
     img_base64 = st_image_to_base64(uploaded_image)  # Convert image to base64
     
@@ -450,7 +450,7 @@ def services_section():
     
    
 def contact_page():
-    image_path = "blurimage.png"  # Update this path as needed
+    image_path = "images/blurimage.png"  # Update this path as needed
     bg_image = Image.open(image_path)
     bg_image_base64 = st_image_to_base64(bg_image)  # Convert image to base64
 
@@ -542,7 +542,7 @@ def contact_page():
 
 def signup_page():
     # Path to background image
-    bg_image_path = "background_signup.jpg"  # Path to your uploaded image
+    bg_image_path = "images/background_signup.jpg"  # Path to your uploaded image
     bg_image = Image.open(bg_image_path)
     bg_image_base64 = st_image_to_base64(bg_image)  # Converts image to base64
 
