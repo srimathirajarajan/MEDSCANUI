@@ -174,6 +174,7 @@ def home_section():
                     <h3 class="hero-title">WELCOME TO MEDSCAN!</h3>
                     <h3 class="hero-subtitle">Unlocking Smarter Healthcare</h3>
                     <div>
+                        <a href="https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/" target="_blank">
                         <button class="custom-button1">
                             <span>Chat Interface</span>
                         </button>
