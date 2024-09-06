@@ -982,7 +982,7 @@ def display_nurse_login():
                     window.location.href = "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/";
                     </script>
                 """, unsafe_allow_html=True)
-                message = "<div class='message success'>Welcome back!</div>"
+               
             else:
                 message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
 
