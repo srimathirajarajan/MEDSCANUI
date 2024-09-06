@@ -970,23 +970,9 @@ def display_nurse_login():
             <a href="?page=forgot_password">Forgot Password?</a>
         </div>
         """, unsafe_allow_html=True)
-        submit_button = st.form_submit_button(label='Sign In')
+        st.link_button("Go to chat interface", "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/")
 
-        if submit_button:
-            result = check_user_credentials(username_input, password_input)
-            if result is True:
-                st.session_state.current_page = "home"  # Navigate to home
-                st.write(
-                '<script>window.open("https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/", "_blank");</script>',
-                unsafe_allow_html=True
-                )
-            else:
-                message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
-
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    if message:
-        st.markdown(message, unsafe_allow_html=True)
+       
 
 
 def display_doctor_login():
