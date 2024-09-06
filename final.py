@@ -813,8 +813,8 @@ def display_nurse_login():
     st.title("Nurse Login")
     
     # Load images
-    bg_image_path = "images/background_log.jpg"
-    icon_image_path = "images/nurse.png"
+    bg_image_path = "D:/CTS/background_log.jpg"
+    icon_image_path = "D:/CTS/nurse.png"
 
     # Ensure images exist at the provided paths
     try:
@@ -952,43 +952,36 @@ def display_nurse_login():
         result = check_user_credentials(username, password)
         if result is True:
             st.session_state.current_page = "home"  # Navigate to home
-             # Redirect to the link after successful login
-            
         else:
             message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
             
-            # Sign in page layout
-       with st.form(key='signin_form'):
-                st.markdown("<div class='signin-container'>", unsafe_allow_html=True)
-                st.markdown(f"<div class='icon'><img src='data:image/png;base64,{nurse_icon_base64}' alt='Doctor Icon'/></div>", unsafe_allow_html=True)
-                
-                # Input fields for username and password
-                username_input = st.text_input("Username", value="")
-                password_input = st.text_input("Password", type='password', value="")
-                
-                # "Forgot Password" link
-                st.markdown("""
-                <div class="forgot-password">
-                    <a href="?page=forgot_password">Forgot Password?</a>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                # Submit button
-                submit_button = st.form_submit_button(label="Sign In")
-            
-            # Handle form submission
-            if submit_button:
-                result = check_user_credentials(username_input, password_input)
-                if result is True:
-                    # Redirect to the external link upon successful login
-                    st.markdown("<meta http-equiv='refresh' content='0; url=https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/'/>", unsafe_allow_html=True)
-                else:
-                    # Display error message
-                    message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
-            
-            # Display messages outside of the form
-            if message:
-                st.markdown(message, unsafe_allow_html=True)
+    # Sign in page layout
+    with st.form(key='signin_form'):
+        st.markdown("<div class='signin-container'>", unsafe_allow_html=True)
+        st.markdown(f"<div class='icon'><img src='data:image/png;base64,{nurse_icon_base64}' alt='Doctor Icon'/></div>", unsafe_allow_html=True)
+        username_input = st.text_input("Username", value=username)
+        password_input = st.text_input("Password", type='password', value=password)
+        
+        # Add the "Forgot Password" link
+        st.markdown("""
+        <div class="forgot-password">
+            <a href="?page=forgot_password">Forgot Password?</a>
+        </div>
+        """, unsafe_allow_html=True)
+        submit_button = st.form_submit_button(label='Sign In')
+
+        if submit_button:
+            result = check_user_credentials(username_input, password_input)
+            if result is True:
+                st.session_state.current_page = "home"  # Navigate to home
+                message = "<div class='message success'>Welcome back!</div>"
+            else:
+                message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    if message:
+        st.markdown(message, unsafe_allow_html=True)
 
 
 def display_doctor_login():
