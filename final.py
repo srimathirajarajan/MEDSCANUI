@@ -990,9 +990,9 @@ def display_nurse_login():
         
                 message = "<div class='message success'>Redirecting to chat...</div>"
             else:
-                message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
+                message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>
 
-st.markdown("</div>", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
 
     if message:
         st.markdown(message, unsafe_allow_html=True)
