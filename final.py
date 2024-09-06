@@ -958,7 +958,7 @@ def display_nurse_login():
             message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
             
             # Sign in page layout
-           with st.form(key='signin_form'):
+        with st.form(key='signin_form'):
             st.markdown("<div class='signin-container'>", unsafe_allow_html=True)
             st.markdown(f"<div class='icon'><img src='data:image/png;base64,{nurse_icon_base64}' alt='Doctor Icon'/></div>", unsafe_allow_html=True)
             username_input = st.text_input("Username", value="")
