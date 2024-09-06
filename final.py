@@ -1238,33 +1238,33 @@ def admin_choice():
     # Use a container to group the images and their descriptions
     with st.container():
     # Dashboard column
-    with col1:
-        st.header("Dashboard")
-
-        # Add dashboard image and text box with hover effect
-        st.markdown(
-            f"""
-            <div class="hover-container">
-                <img src="data:image/png;base64,{image_to_base64("images/dashboard.jpg")}" alt="Dashboard Image">
-                <p>Dashboard</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        # Add content below the box
-        st.markdown(
-            """
-            <div>
-                <p>The Dashboard provides an overview of data visualizations.
-                It helps users monitor performance, track trends, and make informed decisions.</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        # "More" button for the dashboard
-        st.link_button("Dashboard", "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/")
+        with col1:
+            st.header("Dashboard")
+    
+            # Add dashboard image and text box with hover effect
+            st.markdown(
+                f"""
+                <div class="hover-container">
+                    <img src="data:image/png;base64,{image_to_base64("images/dashboard.jpg")}" alt="Dashboard Image">
+                    <p>Dashboard</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    
+            # Add content below the box
+            st.markdown(
+                """
+                <div>
+                    <p>The Dashboard provides an overview of data visualizations.
+                    It helps users monitor performance, track trends, and make informed decisions.</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    
+            # "More" button for the dashboard
+            st.link_button("Dashboard", "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/")
 
 
         # Chat interface column
