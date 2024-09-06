@@ -1294,7 +1294,7 @@ def admin_choice():
             )
 
             # "More" button for the chat interface
-           st.link_button("Dashboard", "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/")
+            st.link_button("chat Interface", "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/")
 
 
 
