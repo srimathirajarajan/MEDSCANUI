@@ -1264,7 +1264,7 @@ def admin_choice():
             )
     
             # "More" button for the dashboard
-            st.link_button("Dashboard", "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/")
+            st.link_button("Dashboard", "https://dashboard-kjskae5djb56iykneychtk.streamlit.app/")
 
 
         # Chat interface column
@@ -1294,8 +1294,8 @@ def admin_choice():
             )
 
             # "More" button for the chat interface
-            if st.button("Chat Interface ➜", key="chat"):
-                st.write("More information about the Chat Interface...")
+           st.link_button("Dashboard", "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/")
+
 
 
 def display_admin_login():
