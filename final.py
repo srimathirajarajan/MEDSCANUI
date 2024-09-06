@@ -1264,8 +1264,7 @@ def admin_choice():
             )
 
             # "More" button for the dashboard
-            if st.button("Real-Time Insights ➜", key="dashboard"):
-                st.write("More information about the Dashboard...")
+           st.link_button("Dashboard", "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/")
 
         # Chat interface column
         with col2:
