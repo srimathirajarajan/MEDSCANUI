@@ -977,17 +977,15 @@ def display_nurse_login():
         if submit_button:
             result = check_user_credentials(username_input, password_input)
             if result is True:
-                 st.markdown(f"""
-                    <script>
-                    window.location.href = "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/";
-                    </script>
-                """, unsafe_allow_html=True)
-               
+                # Redirect to external chat URL (replace with actual chat link)
+                chat_url = "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/"
+                st.query_params(page="chat")  # Optional: Set query params if needed
+                st.markdown(f'<meta http-equiv="refresh" content="0; url={chat_url}">', unsafe_allow_html=True)
+                message = "<div class='message success'>Redirecting to chat...</div>"
             else:
                 message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
 
         st.markdown("</div>", unsafe_allow_html=True)
-
     if message:
         st.markdown(message, unsafe_allow_html=True)
 
