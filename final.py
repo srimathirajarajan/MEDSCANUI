@@ -1256,15 +1256,15 @@ def admin_choice():
             st.markdown(
                 """
                 <div>
-                    <p>The Dashboard provides an overview of data visualizations.
-                    It helps users monitor performance, track trends, and make informed decisions.</p>
+                    <p>The admin panel enables secure management and real-time visualization of patient and doctor information, 
+                    seamlessly integrated with Snowflake for efficient data storage and access. It offers interactive dashboards for easy monitoring of key metrics.</p>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
     
             # "More" button for the dashboard
-            st.link_button("Dashboard", "https://dashboard-kjskae5djb56iykneychtk.streamlit.app/")
+            st.link_button("Admin Panel", "https://aravindhan051000.pythonanywhere.com/dashboard")
 
 
         # Chat interface column
