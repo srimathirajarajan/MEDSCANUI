@@ -1239,7 +1239,7 @@ def admin_choice():
     with st.container():
     # Dashboard column
         with col1:
-            st.header("Dashboard")
+            st.header("Admin panel")
     
             # Add dashboard image and text box with hover effect
             st.markdown(
