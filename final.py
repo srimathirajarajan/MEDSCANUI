@@ -1256,8 +1256,7 @@ def admin_choice():
             st.markdown(
                 """
                 <div>
-                    <p>The admin panel enables secure management and real-time visualization of patient and doctor information, 
-                    seamlessly integrated with Snowflake for efficient data storage and access. It offers interactive dashboards for easy monitoring of key metrics.</p>
+                    <p>The admin panel manages and visualizes patient and doctor data with Snowflake integration and dashboards.</p>
                 </div>
                 """,
                 unsafe_allow_html=True
