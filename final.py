@@ -959,20 +959,30 @@ def display_nurse_login():
             
             # Sign in page layout
         with st.form(key='signin_form'):
-            st.markdown("<div class='signin-container'>", unsafe_allow_html=True)
-            st.markdown(f"<div class='icon'><img src='data:image/png;base64,{nurse_icon_base64}' alt='Doctor Icon'/></div>", unsafe_allow_html=True)
-            username_input = st.text_input("Username", value="")
-            password_input = st.text_input("Password", type='password', value="")
-            
-            # Add the "Forgot Password" link
-            st.markdown("""
-            <div class="forgot-password">
-                <a href="?page=forgot_password">Forgot Password?</a>
-            </div>
-            """, unsafe_allow_html=True)
-        
-            # Submit button
-            submit_button = st.form_submit_button(label="Sign In")
+                st.markdown("<div class='signin-container'>", unsafe_allow_html=True)
+                st.markdown(f"<div class='icon'><img src='data:image/png;base64,{nurse_icon_base64}' alt='Doctor Icon'/></div>", unsafe_allow_html=True)
+                username_input = st.text_input("Username", value=username)
+                password_input = st.text_input("Password", type='password', value=password)
+                
+                # Add the "Forgot Password" link
+                st.markdown("""
+                <div class="forgot-password">
+                    <a href="?page=forgot_password">Forgot Password?</a>
+                </div>
+                """, unsafe_allow_html=True)
+                st.link_button("Go to chat interface", "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/")
+
+      if submit_button:
+            result = check_user_credentials(username_input, password_input)
+            if result is True:
+                st.session_state.current_page = "home"  # Navigate to home
+                message = "<div class='message success'>Welcome back!</div>"
+            else:
+                message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
+
+        st.markdown("</div>", unsafe_allow_html=True)
+     if message:
+            st.markdown(message, unsafe_allow_html=True)
         
         if submit_button:
             result = check_user_credentials(username_input, password_input)
