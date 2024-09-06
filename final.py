@@ -992,7 +992,7 @@ def display_nurse_login():
             else:
                 message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>
 
-            st.markdown("</div>", unsafe_allow_html=True)
+                st.markdown("</div>", unsafe_allow_html=True)
 
     if message:
         st.markdown(message, unsafe_allow_html=True)
