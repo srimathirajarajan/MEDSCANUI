@@ -813,8 +813,8 @@ def display_nurse_login():
     st.title("Nurse Login")
     
     # Load images
-    bg_image_path = "images/background_log.jpg"
-    icon_image_path = "images/nurse.png"
+    bg_image_path = "D:/CTS/background_log.jpg"
+    icon_image_path = "D:/CTS/nurse.png"
 
     # Ensure images exist at the provided paths
     try:
@@ -951,11 +951,7 @@ def display_nurse_login():
         password = st.session_state["password"]
         result = check_user_credentials(username, password)
         if result is True:
-           st.markdown(f"""
-                <script>
-                window.location.href = "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/";
-                </script>
-            """, unsafe_allow_html=True)
+            st.session_state.current_page = "home"  # Navigate to home
         else:
             message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
             
@@ -977,26 +973,15 @@ def display_nurse_login():
         if submit_button:
             result = check_user_credentials(username_input, password_input)
             if result is True:
-                # Set query parameters
-                st.query_params.page = "chat"  # This updates the URL query parameter
-        
-                # Redirect to external chat URL with query parameters
-                chat_url = "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/"
-                st.markdown(f"""
-                    <script>
-                        window.location.href = "{chat_url}?page=chat";
-                    </script>
-                """, unsafe_allow_html=True)
-        
-                message = "<div class='message success'>Redirecting to chat...</div>"
+                st.session_state.current_page = "home"  # Navigate to home
+                message = "<div class='message success'>Welcome back!</div>"
             else:
-                message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>
+                message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
 
-                st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     if message:
         st.markdown(message, unsafe_allow_html=True)
-
 
 def display_doctor_login():
     st.title("Doctor Login")
