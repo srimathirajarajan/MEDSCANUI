@@ -869,14 +869,6 @@ def display_nurse_login():
             border: 1px solid #ddd;
             font-size: 1rem;
         }}
-        .signin-container select {{
-            width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 1rem;
-        }}
         .signin-container button {{
             width: 100%;
             padding: 0.8rem;
@@ -927,40 +919,27 @@ def display_nurse_login():
             conn = snowflake.connector.connect(**snowflake_conn_params)
             cursor = conn.cursor()
             query = """
-            SELECT * FROM users WHERE username=%(username)s AND password=%(password)s ;
+            SELECT role FROM users WHERE username=%(username)s AND password=%(password)s;
             """
-            cursor.execute(query, {'username': username, 'password': password, })
+            cursor.execute(query, {'username': username, 'password': password})
             result = cursor.fetchone()
-            return bool(result)
+            if result:
+                user_role = result[0]  # Assuming the role is the first column in the result
+                return user_role
+            else:
+                return None
         except Exception as e:
             return f"Error checking credentials: {e}"
         finally:
             cursor.close()
             conn.close()
 
-    # Retrieve the username and password from the URL parameters
-    params = st.query_params
-    username = params.get("username", [""])[0]
-    password = params.get("password", [""])[0]
-
-    message = ""
-
-    # Handle sign-in logic if the form is submitted
-    if st.session_state.get("username") and st.session_state.get("password"):
-        username = st.session_state["username"]
-        password = st.session_state["password"]
-        result = check_user_credentials(username, password)
-        if result is True:
-            st.session_state.current_page = "home"  # Navigate to home
-        else:
-            message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
-            
-    # Sign in page layout
+    # Handle sign-in logic
     with st.form(key='signin_form'):
         st.markdown("<div class='signin-container'>", unsafe_allow_html=True)
-        st.markdown(f"<div class='icon'><img src='data:image/png;base64,{nurse_icon_base64}' alt='Doctor Icon'/></div>", unsafe_allow_html=True)
-        username_input = st.text_input("Username", value=username)
-        password_input = st.text_input("Password", type='password', value=password)
+        st.markdown(f"<div class='icon'><img src='data:image/png;base64,{nurse_icon_base64}' alt='Nurse Icon'/></div>", unsafe_allow_html=True)
+        username_input = st.text_input("Username")
+        password_input = st.text_input("Password", type='password')
         
         # Add the "Forgot Password" link
         st.markdown("""
@@ -968,27 +947,28 @@ def display_nurse_login():
             <a href="?page=forgot_password">Forgot Password?</a>
         </div>
         """, unsafe_allow_html=True)
+
         submit_button = st.form_submit_button(label='Sign In')
 
         if submit_button:
-            result = check_user_credentials(username_input, password_input)
-            if result is True:
-                st.session_state.current_page = "home"  # Navigate to home
-                message = "<div class='message success'>Welcome back!</div>"
+            user_role = check_user_credentials(username_input, password_input)
+            if user_role == "Nurse":  # Check if the user role is "Nurse"
+                st.session_state.current_page = "home"  # Navigate to home page for nurses
+                st.success("Welcome Nurse!")
+            elif user_role:
+                st.error(f"Invalid role. You are logged in as a {user_role}.")
             else:
-                message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
+                st.error("Invalid credentials, please try again.")
 
         st.markdown("</div>", unsafe_allow_html=True)
 
-    if message:
-        st.markdown(message, unsafe_allow_html=True)
 
 def display_doctor_login():
     st.title("Doctor Login")
     
     # Load images
-    bg_image_path = "images/background_log.jpg"
-    icon_image_path = "images/doctor.png"
+    bg_image_path = "background_log.jpg"
+    icon_image_path = "D:/CTS/doctor.png"
 
     # Ensure images exist at the provided paths
     try:
@@ -1046,14 +1026,6 @@ def display_doctor_login():
             border: 1px solid #ddd;
             font-size: 1rem;
         }}
-        .signin-container select {{
-            width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 1rem;
-        }}
         .signin-container button {{
             width: 100%;
             padding: 0.8rem;
@@ -1097,11 +1069,15 @@ def display_doctor_login():
             conn = snowflake.connector.connect(**snowflake_conn_params)
             cursor = conn.cursor()
             query = """
-            SELECT * FROM users WHERE username=%(username)s AND password=%(password)s ;
+            SELECT role FROM users WHERE username=%(username)s AND password=%(password)s;
             """
-            cursor.execute(query, {'username': username, 'password': password, })
+            cursor.execute(query, {'username': username, 'password': password})
             result = cursor.fetchone()
-            return bool(result)
+            if result:
+                user_role = result[0]  # Assuming the role is the first column in the result
+                return user_role
+            else:
+                return None
         except Exception as e:
             return f"Error checking credentials: {e}"
         finally:
@@ -1119,12 +1095,13 @@ def display_doctor_login():
     if st.session_state.get("username") and st.session_state.get("password"):
         username = st.session_state["username"]
         password = st.session_state["password"]
-        result = check_user_credentials(username, password)
-        if result is True:
-            st.session_state.current_page = "home"  # Navigate to home
+        user_role = check_user_credentials(username, password)
+        if user_role == "Doctor":
+            st.session_state.current_page = "home"  # Navigate to home page for doctors
+            st.success("Welcome Doctor!")
             st.experimental_rerun()  # Refresh the page to navigate
         else:
-            message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
+            message = f"<div class='message error'>{'Invalid credentials or incorrect role, please try again.'}</div>"
             
     # Sign in page layout
     with st.form(key='signin_form'):
@@ -1142,15 +1119,14 @@ def display_doctor_login():
         submit_button = st.form_submit_button(label='Sign In')
 
         if submit_button:
-            result = check_user_credentials(username_input, password_input)
-            if result is True:
-                st.session_state.current_page = "home"  # Navigate to home
-                message = "<div class='message success'>Welcome back!</div>"
-                
+            user_role = check_user_credentials(username_input, password_input)
+            if user_role == "Doctor":
+                st.session_state.current_page = "home"  # Navigate to home page for doctors
+                st.success("Welcome Doctor!")
+            elif user_role:
+                st.error(f"Invalid role. You are logged in as a {user_role}.")
             else:
-                message = f"<div class='message error'>{result if isinstance(result, str) else 'Invalid credentials, please try again.'}</div>"
-
-        st.markdown("</div>", unsafe_allow_html=True)
+                st.error("Invalid credentials, please try again.")
 
     if message:
         st.markdown(message, unsafe_allow_html=True)
