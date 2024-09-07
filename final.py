@@ -813,8 +813,8 @@ def display_nurse_login():
     st.title("Nurse Login")
     
     # Load images
-    bg_image_path = "D:/CTS/background_log.jpg"
-    icon_image_path = "D:/CTS/nurse.png"
+    bg_image_path = "images/background_log.jpg"
+    icon_image_path = "images/nurse.png"
 
     # Ensure images exist at the provided paths
     try:
@@ -968,7 +968,7 @@ def display_doctor_login():
     
     # Load images
     bg_image_path = "background_log.jpg"
-    icon_image_path = "D:/CTS/doctor.png"
+    icon_image_path = "images/doctor.png"
 
     # Ensure images exist at the provided paths
     try:
