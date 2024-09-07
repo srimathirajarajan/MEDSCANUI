@@ -967,7 +967,7 @@ def display_doctor_login():
     st.title("Doctor Login")
     
     # Load images
-    bg_image_path = "background_log.jpg"
+    bg_image_path = "images/background_log.jpg"
     icon_image_path = "images/doctor.png"
 
     # Ensure images exist at the provided paths
