@@ -1195,9 +1195,9 @@ def admin_choice():
                 unsafe_allow_html=True
             )
 
+            
             # "More" button for the dashboard
-            if st.button("Real-Time Insights ➜", key="dashboard"):
-                st.write("More information about the Dashboard...")
+            st.link_button("Admin Panel", "https://aravindhan051000.pythonanywhere.com/dashboard")
 
         # Chat interface column
         with col2:
@@ -1226,8 +1226,7 @@ def admin_choice():
             )
 
             # "More" button for the chat interface
-            if st.button("Chat Interface ➜", key="chat"):
-                st.write("More information about the Chat Interface...")
+            st.link_button("chat Interface", "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/")
 
 
 def display_admin_login():
