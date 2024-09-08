@@ -184,6 +184,7 @@ def home_section():
         </section>
     """, unsafe_allow_html=True)
 
+
     st.markdown("""
         <div class="navbar">
             <div class="logo">MedScan</div>
@@ -197,7 +198,6 @@ def home_section():
             </div>
         </div>
     """, unsafe_allow_html=True)
-
 
 
     
@@ -362,6 +362,7 @@ def services_section():
             margin-left:-400px;
             margin-right:-400px;
             justify-content: center;
+            margin-top:-100px;
         }
 
         .service-box {
@@ -377,6 +378,7 @@ def services_section():
             align-items: center;
             position:relative;
             top:-400px;
+            
         }
 
         .service-box:hover {
@@ -407,7 +409,7 @@ def services_section():
     margin-left: auto;
     margin-right: auto;
     position: relative;
-    top: -400px; /* Adjust this value to move the text closer to the top */
+    top: -500px; /* Adjust this value to move the text closer to the top */
     }
         </style>
         """,
@@ -461,7 +463,7 @@ def contact_page():
                 padding: 50px;
                 border-radius: 10px;
                 color: black;
-                margin-top: -100px;
+                margin-top: -250px;
                 width: 100%; /* Use percentage width for responsiveness */
                 box-sizing: border-box; /* Include padding in width calculation */
             }}
@@ -540,7 +542,7 @@ def contact_page():
     
 def signup_page():
     # Path to background image
-    bg_image_path = "images/background_signup.jpg"  # Path to your uploaded image
+    bg_image_path = "D:/CTS/background_signup.jpg"  # Path to your uploaded image
     bg_image = Image.open(bg_image_path)
     bg_image_base64 = st_image_to_base64(bg_image)  # Converts image to base64
 
@@ -660,46 +662,7 @@ def signup_page():
                     st.markdown(f"<div class='message success'>{result}</div>", unsafe_allow_html=True)
             else:
                 st.markdown("<div class='message error'>All fields are required.</div>", unsafe_allow_html=True)
-                
-def forgot_password_page():
-    st.title("Forgot Password")
-    st.write("Enter your email address to receive a password reset link.")
-    
-    email = st.text_input("Email")
-    submit_button = st.button("Send Reset Link")
-    
-    if submit_button:
-        # Add logic to send the reset link to the provided email
-        send_reset_link(email)
-        st.success("A password reset link has been sent to your email address.")
 
-def send_reset_link(email):
-    # Logic to generate a reset token, save it to the database, and send the email
-    pass
-
-def reset_password_page():
-    token = st.experimental_get_query_params().get("token", [""])[0]
-    
-    if not token:
-        st.error("Invalid or missing token.")
-        return
-    
-    st.title("Reset Password")
-    new_password = st.text_input("New Password", type='password')
-    confirm_password = st.text_input("Confirm Password", type='password')
-    submit_button = st.button("Reset Password")
-    
-    if submit_button:
-        if new_password == confirm_password:
-            # Add logic to verify the token and update the password in the database
-            reset_password(token, new_password)
-            st.success("Your password has been successfully reset.")
-        else:
-            st.error("Passwords do not match.")
-
-def reset_password(token, new_password):
-    # Logic to verify the token and update the password
-    pass
 
 # Helper function to convert image to base64 (used in the background image)
 def image_to_base64(image_path):
@@ -941,26 +904,22 @@ def display_nurse_login():
         username_input = st.text_input("Username")
         password_input = st.text_input("Password", type='password')
         
-        # Add the "Forgot Password" link
-        st.markdown("""
-        <div class="forgot-password">
-            <a href="?page=forgot_password">Forgot Password?</a>
-        </div>
-        """, unsafe_allow_html=True)
 
         submit_button = st.form_submit_button(label='Sign In')
 
         if submit_button:
-            user_role = check_user_credentials(username_input, password_input)
-            if user_role == "Nurse":  # Check if the user role is "Nurse"
-                st.session_state.current_page = "home"  # Navigate to home page for nurses
-                st.success("Welcome Nurse!")
-            elif user_role:
-                st.error(f"Invalid role. You are logged in as a {user_role}.")
-            else:
-                st.error("Invalid credentials, please try again.")
+           user_role = check_user_credentials(username_input, password_input)
+           if user_role == "Nurse":  # Check if the user role is "Nurse"
+                st.session_state['current_page'] = 'home'  # Set current page to home in session state
+                st.success("Welcome Nurse! Click the link below to access the chat interface.")
+                # Create a link to the chat interface URL
+                st.write(f"[Access Chat Interface](https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/)")
+           elif user_role:
+                 st.error(f"Invalid role. You are logged in as a {user_role}.")
+           else:
+                 st.error("Invalid credentials, please try again.")
 
-        st.markdown("</div>", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 
 def display_doctor_login():
@@ -1110,26 +1069,23 @@ def display_doctor_login():
         username_input = st.text_input("Username", value=username)
         password_input = st.text_input("Password", type='password', value=password)
         
-        # Add the "Forgot Password" link
-        st.markdown("""
-        <div class="forgot-password">
-            <a href="?page=forgot_password">Forgot Password?</a>
-        </div>
-        """, unsafe_allow_html=True)
         submit_button = st.form_submit_button(label='Sign In')
 
         if submit_button:
-            user_role = check_user_credentials(username_input, password_input)
-            if user_role == "Doctor":
-                st.session_state.current_page = "home"  # Navigate to home page for doctors
-                st.success("Welcome Doctor!")
-            elif user_role:
-                st.error(f"Invalid role. You are logged in as a {user_role}.")
-            else:
-                st.error("Invalid credentials, please try again.")
+           user_role = check_user_credentials(username_input, password_input)
+           if user_role == "Doctor":  # Check if the user role is "Nurse"
+                st.session_state['current_page'] = 'home'  # Set current page to home in session state
+                st.success("Welcome Doctor! Click the link below to access the chat interface.")
+                # Create a link to the chat interface URL
+                st.write(f"[Access Chat Interface](https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/)")
+           elif user_role:
+                 st.error(f"Invalid role. You are logged in as a {user_role}.")
+           else:
+                 st.error("Invalid credentials, please try again.")
 
     if message:
         st.markdown(message, unsafe_allow_html=True)
+
         
 def admin_choice():
     # Function to convert image to base64
@@ -1159,7 +1115,7 @@ def admin_choice():
     set_bg_image("images/new_pic.jpg")
 
     # Main function for the app
-    st.title("Dashboard and Chat Interface")
+    st.title("Admin Panel and Chat Interface")
 
     # CSS for hover effect, text boxes, and buttons
     st.markdown(
@@ -1213,34 +1169,35 @@ def admin_choice():
 
     # Use a container to group the images and their descriptions
     with st.container():
-    # Dashboard column
+        # Dashboard column
         with col1:
-            st.header("Admin panel")
-    
+            st.header("Admin Panel")
+
             # Add dashboard image and text box with hover effect
             st.markdown(
                 f"""
                 <div class="hover-container">
-                    <img src="data:image/png;base64,{image_to_base64("images/dashboard.jpg")}" alt="Dashboard Image">
-                    <p>Dashboard</p>
+                    <img src="data:image/png;base64,{image_to_base64("images/admin.jpg")}" alt="Dashboard Image">
+                    <p>Admin panel</p>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
-    
+
             # Add content below the box
             st.markdown(
                 """
                 <div>
-                    <p>The admin panel manages and visualizes patient and doctor data with Snowflake integration and dashboards.</p>
+                    <p>The Dashboard provides an overview of data visualizations.
+                    It helps users monitor performance, track trends, and make informed decisions.</p>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
-    
-            # "More" button for the dashboard
-            st.link_button("Admin Panel", "https://aravindhan051000.pythonanywhere.com/dashboard")
 
+            # "More" button for the dashboard
+            if st.button("Real-Time Insights ➜", key="dashboard"):
+                st.write("More information about the Dashboard...")
 
         # Chat interface column
         with col2:
@@ -1269,8 +1226,8 @@ def admin_choice():
             )
 
             # "More" button for the chat interface
-            st.link_button("chat Interface", "https://medscan-zt2lv7whs69rtsou6cjn5k.streamlit.app/")
-
+            if st.button("Chat Interface ➜", key="chat"):
+                st.write("More information about the Chat Interface...")
 
 
 def display_admin_login():
@@ -1417,12 +1374,6 @@ def display_admin_login():
         st.markdown(f"<div class='icon'><img src='data:image/png;base64,{admin_icon_base64}' alt='Admin Icon'/></div>", unsafe_allow_html=True)
         username_input = st.text_input("Username", value=username)
         password_input = st.text_input("Password", type='password', value=password)
-        # Add the "Forgot Password" link
-        st.markdown("""
-        <div class="forgot-password">
-            <a href="?page=forgot_password">Forgot Password?</a>
-        </div>
-        """, unsafe_allow_html=True)
         submit_button = st.form_submit_button(label='Sign In')
 
         # Update the message after the form is submitted
@@ -1449,10 +1400,9 @@ def display_admin_login():
 
     # Return default message if no specific message is set
     return "No action taken"
-
+                
 if "page" not in st.session_state:
     st.session_state.page = ""
-
        
 def footer():   
    # Footer page
@@ -1576,7 +1526,6 @@ def footer():
         </div>
         """, unsafe_allow_html=True)  
 
-
 query_params = st.query_params.to_dict()
 page = query_params.get("page", "home")
 role = query_params.get("role", "")
@@ -1588,10 +1537,12 @@ if page == "home":
     services_section()
     contact_page()
     footer()
+    
+elif page == "signup":
+    signup_page()
 
 elif page == "signin":
     display_login_as_page()  # Show login page with role options (e.g., Nurse, Doctor, Admin)
-
 
 elif page == "role_selection" and role:
     # Automatically navigate to the corresponding role page
@@ -1618,8 +1569,6 @@ elif page == "admin":
 elif page == "admin_choice":
     admin_choice()
 
-elif page=="signup":
-    signup_page()
 else:
     # Default to home if no page is specified
     st.query_params.from_dict({"page": "home"})
