@@ -542,7 +542,7 @@ def contact_page():
     
 def signup_page():
     # Path to background image
-    bg_image_path = "D:/CTS/background_signup.jpg"  # Path to your uploaded image
+    bg_image_path = "images/background_signup.jpg"  # Path to your uploaded image
     bg_image = Image.open(bg_image_path)
     bg_image_base64 = st_image_to_base64(bg_image)  # Converts image to base64
 
