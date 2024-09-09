@@ -625,6 +625,31 @@ def signup_page():
         'schema': 'logindetails'
     }
 
+    # Email validation function
+    def validate_email(email):
+        email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+        if not re.match(email_regex, email):
+            return "Invalid email format."
+        if " " in email:
+            return "Email cannot contain spaces."
+        return "Email is valid."
+
+    # Password validation function
+    def validate_password(password):
+        if len(password) < 8:
+            return "Password must be at least 8 characters long."
+        if not re.search(r'[A-Z]', password):
+            return "Password must contain at least one uppercase letter."
+        if not re.search(r'[a-z]', password):
+            return "Password must contain at least one lowercase letter."
+        if not re.search(r'[0-9]', password):
+            return "Password must contain at least one digit."
+        if not re.search(r'[!@#$%^&*(),.?\":{}|<>]', password):
+            return "Password must contain at least one special character."
+        if " " in password:
+            return "Password cannot contain spaces."
+        return "Password is valid."
+
     def insert_user_to_snowflake(username, email, password, role):
         try:
             conn = snowflake.connector.connect(**snowflake_conn_params)
@@ -655,11 +680,21 @@ def signup_page():
 
         if submit_button:
             if username and email and password and role:
-                result = insert_user_to_snowflake(username, email, password, role)
-                if "Error" in result:
-                    st.markdown(f"<div class='message error'>{result}</div>", unsafe_allow_html=True)
+                # Validate email and password constraints
+                email_validation_result = validate_email(email)
+                password_validation_result = validate_password(password)
+
+                if email_validation_result == "Email is valid." and password_validation_result == "Password is valid.":
+                    result = insert_user_to_snowflake(username, email, password, role)
+                    if "Error" in result:
+                        st.markdown(f"<div class='message error'>{result}</div>", unsafe_allow_html=True)
+                    else:
+                        st.markdown(f"<div class='message success'>{result}</div>", unsafe_allow_html=True)
                 else:
-                    st.markdown(f"<div class='message success'>{result}</div>", unsafe_allow_html=True)
+                    if email_validation_result != "Email is valid.":
+                        st.markdown(f"<div class='message error'>{email_validation_result}</div>", unsafe_allow_html=True)
+                    if password_validation_result != "Password is valid.":
+                        st.markdown(f"<div class='message error'>{password_validation_result}</div>", unsafe_allow_html=True)
             else:
                 st.markdown("<div class='message error'>All fields are required.</div>", unsafe_allow_html=True)
 
