@@ -4,6 +4,7 @@ import snowflake.connector
 from PIL import Image
 import base64
 from io import BytesIO
+import re
 
 # Function to handle page navigation
 def navigate_to(page):
